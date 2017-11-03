@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html data-framework="vue">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Vue.js • TodoMVC</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css">
+    <style>
+    [v-cloak] {
+        display: none;
+    }
+    </style>
+</head>
+
+<body>
+    <section class="todoapp" v-cloak>
+        <header class="header">
+            <h1>{{title}}</h1>
+            <input autofocus="autofocus" autocomplete="off" v-bind:placeholder="placeholder" class="new-todo">
+        </header>
+        <section class="main">
+            <input type="checkbox" class="toggle-all">
+            <ul class="todo-list">
+                <todo-component message="aeiou"></todo-component>
+                <li class="todo">
+                    <div class="view">
+                        <input type="checkbox" class="toggle">
+                        <label>vfdsa</label>
+                        <button class="destroy"></button>
+                    </div>
+                    <input type="text" class="edit">
+                </li>
+            </ul>
+        </section>
+        <footer class="footer"><span class="todo-count"><strong>1</strong> item left
+				</span>
+            <ul class="filters">
+                <li><a href="#/all" class="selected">All</a></li>
+                <li><a href="#/active" class="">Active</a></li>
+                <li><a href="#/completed" class="">Completed</a></li>
+            </ul>
+            <button class="clear-completed">
+                Clear completed
+            </button>
+        </footer>
+    </section>
+    <footer class="info">
+        <p>Written by <a href="http://github.com/YeomanYe">YeomanYe</a></p>
+    </footer>
+    <script src="node_modules/vue/dist/vue.js" type="text/javascript"></script>
+    <script src="js/app.js" type="text/javascript"></script>
+    <script src="js/todo-component.js" type="text/javascript"></script>
+</body>
+
+</html>
