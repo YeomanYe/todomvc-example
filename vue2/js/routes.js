@@ -1,24 +1,27 @@
-/*global app, Router */
+(function() {
+    function all() {
+        app.visibility = 'all';
+    };
 
-(function (app, Router) {
+    function active() {
+        app.visibility = 'active';
+    };
 
-	'use strict';
+    function completed() {
+        app.visibility = 'completed';
+    };
+    var routes = {
+        '/all': all,
+        '/active': active,
+        '/completed': completed
+    };
 
-	var router = new Router();
-
-	['all', 'active', 'completed'].forEach(function (visibility) {
-		router.on(visibility, function () {
-			app.visibility = visibility;
-		});
-	});
-
-	router.configure({
-		notfound: function () {
-			window.location.hash = '';
-			app.visibility = 'all';
-		}
-	});
-
-	router.init();
-
+    var router = Router(routes);
+    router.configure({
+        notfound: function() {
+            window.location.hash = '';
+            app.visibility = 'all';
+        }
+    });
+    router.init();
 })(app, Router);

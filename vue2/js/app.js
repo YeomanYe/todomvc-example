@@ -1,125 +1,98 @@
-/*global Vue, todoStorage */
-
-(function (exports) {
-
-	'use strict';
-
-	var filters = {
-		all: function (todos) {
-			return todos;
-		},
-		active: function (todos) {
-			return todos.filter(function (todo) {
-				return !todo.completed;
-			});
-		},
-		completed: function (todos) {
-			return todos.filter(function (todo) {
-				return todo.completed;
-			});
-		}
-	};
-
-	exports.app = new Vue({
-
-		// the root element that will be compiled
-		el: '.todoapp',
-
-		// app initial state
-		data: {
-			todos: todoStorage.fetch(),
-			newTodo: '',
-			editedTodo: null,
-			visibility: 'all'
-		},
-
-		// watch todos change for localStorage persistence
-		watch: {
-			todos: {
-				deep: true,
-				handler: todoStorage.save
-			}
-		},
-
-		// computed properties
-		// http://vuejs.org/guide/computed.html
-		computed: {
-			filteredTodos: function () {
-				return filters[this.visibility](this.todos);
-			},
-			remaining: function () {
-				return filters.active(this.todos).length;
-			},
-			allDone: {
-				get: function () {
-					return this.remaining === 0;
-				},
-				set: function (value) {
-					this.todos.forEach(function (todo) {
-						todo.completed = value;
-					});
-				}
-			}
-		},
-
-		// methods that implement data logic.
-		// note there's no DOM manipulation here at all.
-		methods: {
-
-			pluralize: function (word, count) {
-				return word + (count === 1 ? '' : 's');
-			},
-
-			addTodo: function () {
-				var value = this.newTodo && this.newTodo.trim();
-				if (!value) {
-					return;
-				}
-				this.todos.push({ title: value, completed: false });
-				this.newTodo = '';
-			},
-
-			removeTodo: function (todo) {
-				var index = this.todos.indexOf(todo);
-				this.todos.splice(index, 1);
-			},
-
-			editTodo: function (todo) {
-				this.beforeEditCache = todo.title;
-				this.editedTodo = todo;
-			},
-
-			doneEdit: function (todo) {
-				if (!this.editedTodo) {
-					return;
-				}
-				this.editedTodo = null;
-				todo.title = todo.title.trim();
-				if (!todo.title) {
-					this.removeTodo(todo);
-				}
-			},
-
-			cancelEdit: function (todo) {
-				this.editedTodo = null;
-				todo.title = this.beforeEditCache;
-			},
-
-			removeCompleted: function () {
-				this.todos = filters.active(this.todos);
-			}
-		},
-
-		// a custom directive to wait for the DOM to be updated
-		// before focusing on the input field.
-		// http://vuejs.org/guide/custom-directive.html
-		directives: {
-			'todo-focus': function (el, binding) {
-				if (binding.value) {
-					el.focus();
-				}
-			}
-		}
-	});
-
+(function(exports) {
+    var filters = {
+        all(todos){
+            return todos;
+        },
+        active(todos){
+            return todos.filter(function(todo){
+                return !todo.completed;
+            });
+        },
+        completed(todos){
+            return todos.filter(function(todo){
+                return todo.completed;
+            });
+        },
+    }
+    exports.app = new Vue({
+        el: '.todoapp',
+        data: {
+            title: "todos",
+            placeholder: "请填写代办事项",
+            todoInput: "",
+            visibility: "all",
+            editedTodo: null,
+            todos: JSON.parse(localStorage.getItem("todos")) || []
+        },
+        watch: {
+            todos: {
+                deep: true,
+                handler() {
+                    localStorage.setItem("todos", JSON.stringify(this.todos));
+                }
+            }
+        },
+        methods: {
+            todoInputHandler(event) {
+                console.log("event", event);
+                let val = this.todoInput;
+                if (!val || !val.trim()) return;
+                this.todos.push({
+                    message: val,
+                    completed: false
+                });
+                //清空输入
+                this.todoInput = "";
+                //持久化到本地存储
+                localStorage.setItem("todos", JSON.stringify(this.todos));
+            },
+            removeTodo(index, event) {
+                console.log("this", this);
+                console.log("event", event);
+                console.log("index", index);
+                this.todos.splice(index, 1);
+            },
+            removeAllCompl() {
+                console.log("todos", this.todos);
+                for (let i = this.todos.length - 1; i >= 0; i--) {
+                    let todo = this.todos[i];
+                    console.log(todo, i);
+                    if (todo.completed) {
+                        this.todos.splice(i, 1);
+                    }
+                }
+            },
+            editTodo(todo) {
+                this.beforeEditCache = todo.message;
+                this.editedTodo = todo;
+            },
+            doneEdit(todo) {
+                this.beforeEditCache = "";
+                this.editedTodo = null;
+            },
+            cancelEdit(todo) {
+                todo.message = this.beforeEditCache;
+                this.editedTodo = null;
+            }
+        },
+        computed: {
+            filteredTodos(){
+                return filters[this.visibility](this.todos);
+            },
+            leftTodos() {
+                let left = 0;
+                for (todo of this.todos) {
+                    left = todo.completed ? left : left + 1;
+                }
+                return left;
+            }
+        },
+        directives: {
+            'todo-focus' (el, binding) {
+                if (binding.value) {
+                    el.focus();
+                }
+            }
+        }
+    });
 })(window);

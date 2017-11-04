@@ -1,11 +1,15 @@
 {
-  "name": "vue2",
+  "name": "vue",
   "version": "1.0.0",
-  "description": "vue todomvc",
+  "description": "vue for todo-example",
   "main": "index.js",
+  "dependencies": {
+    "vue": "^2.5.2"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Ming Ye",
+  "author": "YeomanYe",
   "license": "ISC"
 }

@@ -1,3 +1,3 @@
 # vue2
-安装: `npm i`
-打开 index.html即可看到效果
+除了vue框架外还是用上了[director](https://github.com/flatiron/director)路由
+
