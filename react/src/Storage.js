@@ -1,5 +1,5 @@
 export default class Storage{
-    static key = 'todos';
+    static key = 'react-todos';
 
     static init(){
         var datas = this.getItem();

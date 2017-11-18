@@ -13,9 +13,6 @@ class TodoHeader extends Component {
             input:''
         });
     }
-   /* this.setState({
-        input:''
-    })*/
   }
   changeHandler(event){
     console.log(event);
