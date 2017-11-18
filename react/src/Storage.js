@@ -1,17 +1,29 @@
 export default class Storage{
-    static setItem(key,data){
-        localStorage.setItem(key,JSON.stringify(data));
+    static key = 'todos';
+
+    static init(){
+        var datas = this.getItem();
+        datas = datas ? datas : [];
+        this.setItem(datas);
     }
-    static getItem(key){
-        return JSON.parse(localStorage.getItem(key));
+    static setItem(data){
+        localStorage.setItem(this.key,JSON.stringify(data));
     }
-    static remoteItem(key,item){
-        var datas = JSON.parse(localStorage.getItem(key));
+    static getItem(){
+        return JSON.parse(localStorage.getItem(this.key));
+    }
+    static addItem(item){
+        var datas = this.getItem();
+        datas.push(item);
+        this.setItem(datas);
+    }
+    static remoteItem(item){
+        var datas = this.getItem();
         var index = datas.indexOf(item);
         datas.splice(index,1);
-        localStorage.setItem(key,JSON.stringify(datas));
+        this.setItem(datas);
     }
-    static clear(key){
-        localStorage.remoteItem(key);
+    static clear(){
+        localStorage.remoteItem(this.key);
     }
 }

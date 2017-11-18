@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
+import Storage from './Storage';
 
 class TodoHeader extends Component {
   keydownHandler(event){
     console.log(event.keyCode);
     if(event.keyCode === 13){
+        Storage.addItem({
+            message:this.state.input,
+            completed:false
+        });
         this.setState({
             input:''
         });
