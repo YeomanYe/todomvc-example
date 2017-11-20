@@ -6,7 +6,7 @@ import Storage from './Storage';
 export default class Todo extends Component {
     constructor(props) {
         super(props);
-        let todo = this.props.todo,
+        let {todo} = this.props,
             itemClass = todo.completed ? 'todo completed' : 'todo';
         this.state = {
             todo:todo,
@@ -72,14 +72,16 @@ export default class Todo extends Component {
         })
     }
     render() {
+        let {todo,itemClass,msg} = this.state;
+        const {setEditClass,buttonHandler,keydownHandler,inputChangeHandler,ckChangeHandler} = this;
         return (
-            <li className={this.state.itemClass}>
+            <li className={itemClass}>
                 <div className="view">
-                    <input checked={this.state.todo.completed} onChange={this.ckChangeHandler.bind(this)}  type="checkbox" className="toggle"/>
-                    <label onDoubleClick={this.setEditClass.bind(this)}>{this.state.todo.message}</label>
-                    <button onClick={this.buttonHandler.bind(this)} className="destroy"></button>
+                    <input checked={todo.completed} onChange={ckChangeHandler.bind(this)}  type="checkbox" className="toggle"/>
+                    <label onDoubleClick={setEditClass.bind(this)}>{todo.message}</label>
+                    <button onClick={buttonHandler.bind(this)} className="destroy"></button>
                 </div>
-                <input onKeyDown={this.keydownHandler.bind(this)} value={this.state.msg} onChange={this.inputChangeHandler.bind(this)} type="text" className="edit"/>
+                <input onKeyDown={keydownHandler.bind(this)} value={msg} onChange={inputChangeHandler.bind(this)} type="text" className="edit"/>
             </li>
         )
     }

@@ -11,10 +11,9 @@ class TodoFooter extends Component {
         this.props.updateItem();
     }
     render() {
-        const visibility = this.props.visibility,
-              updateVisibility = this.props.changeVisibilityHandler;
+        const {visibility,left,changeVisibilityHandler:updateVisibility} = this.props;
         return (
-            <footer className="footer"><span className="todo-count"><strong>{this.props.left}</strong> item left
+            <footer className="footer"><span className="todo-count"><strong>{left}</strong> item left
                 </span>
             <ul className="filters">
                 <li><a href="#/all" onClick={()=>updateVisibility('all')} className={visibility === 'all' ? 'selected' : ''}>All</a></li>

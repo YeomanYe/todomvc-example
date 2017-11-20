@@ -33,11 +33,13 @@ class App extends Component {
     });
   }
   render() {
+    const {updateItem,updateVisibility} = this;
+    let {todos,visibility} = this.state;
     return (
       <section>
-        <TodoHeader updateItem={this.updateItem.bind(this)}/>
-        <TodoMain updateItem={this.updateItem.bind(this)} todos={this.state.todos}/>
-        <TodoFooter updateItem={this.updateItem.bind(this)} changeVisibilityHandler={this.updateVisibility.bind(this)} visibility={this.state.visibility} left={Filter.active(Storage.datas).length}/>
+        <TodoHeader updateItem={updateItem.bind(this)}/>
+        <TodoMain updateItem={updateItem.bind(this)} todos={todos}/>
+        <TodoFooter updateItem={updateItem.bind(this)} changeVisibilityHandler={updateVisibility.bind(this)} visibility={visibility} left={Filter.active(Storage.datas).length}/>
       </section>
     );
   }

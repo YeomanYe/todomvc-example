@@ -31,11 +31,12 @@ class TodoHeader extends Component {
         };
     }
     render() {
+        const {changeHandler,keydownHandler} = this;
         return (
-            <header className="header">
+        <header className="header">
           <h1>todos</h1>
-          <input onChange={this.changeHandler.bind(this)} onKeyDown={this.keydownHandler.bind(this)} value={this.state.input} autoFocus="autofocus" autoComplete="off" placeholder="请填写代办事项" className="new-todo"/>
-      </header>
+          <input onChange={changeHandler.bind(this)} onKeyDown={keydownHandler.bind(this)} value={this.state.input} autoFocus="autofocus" autoComplete="off" placeholder="请填写代办事项" className="new-todo"/>
+        </header>
         );
     }
 }
