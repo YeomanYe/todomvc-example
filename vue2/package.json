@@ -4,6 +4,7 @@
   "description": "vue for todo-example",
   "main": "index.js",
   "dependencies": {
+    "director": "^1.2.8",
     "vue": "^2.5.2"
   },
   "devDependencies": {},

@@ -22,13 +22,13 @@
             todoInput: "",
             visibility: "all",
             editedTodo: null,
-            todos: JSON.parse(localStorage.getItem("todos")) || []
+            todos: JSON.parse(localStorage.getItem("vue-todos")) || []
         },
         watch: {
             todos: {
                 deep: true,
                 handler() {
-                    localStorage.setItem("todos", JSON.stringify(this.todos));
+                    localStorage.setItem("vue-todos", JSON.stringify(this.todos));
                 }
             }
         },
@@ -44,7 +44,7 @@
                 //清空输入
                 this.todoInput = "";
                 //持久化到本地存储
-                localStorage.setItem("todos", JSON.stringify(this.todos));
+                localStorage.setItem("vue-todos", JSON.stringify(this.todos));
             },
             removeTodo(index, event) {
                 console.log("this", this);
