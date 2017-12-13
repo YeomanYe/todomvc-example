@@ -9,7 +9,7 @@ class TodoMain extends Component {
             <ul className="todo-list">
                 {
                     this.props.todos.map((todo,index) =>
-                        <Todo updateItem={this.props.updateItem}  key={todo.message+index} todo={todo}/>
+                        <Todo key={todo.message+index} todo={todo}/>
                     )
                 }
             </ul>

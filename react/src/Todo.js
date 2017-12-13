@@ -2,8 +2,12 @@ import React, {
     Component
 } from 'react';
 import Storage from './Storage';
+import PropTypes from 'prop-types';
 
 export default class Todo extends Component {
+    static contextTypes = {
+        updateItem: PropTypes.func,
+      };
     constructor(props) {
         super(props);
         let {todo} = this.props,
@@ -26,12 +30,14 @@ export default class Todo extends Component {
         });
         this.setCompletedClass();
         Storage.updateItem();
-        this.props.updateItem();
+        console.log('context',this.context);
+        this.context.updateItem();
     }
     buttonHandler(){
         Storage.remoteItem(this.state.todo);
         Storage.updateItem();
-        this.props.updateItem();
+        console.log('context',this.context);
+        this.context.updateItem();
     }
     setEditClass(){
         let todo = this.state.todo,
@@ -63,7 +69,7 @@ export default class Todo extends Component {
                 todo:todo
             });
             this.setCompletedClass();
-            this.props.updateItem();
+            this.context.updateItem();
         }else if(event.keyCode === 27){
             this.setCompletedClass();
         }

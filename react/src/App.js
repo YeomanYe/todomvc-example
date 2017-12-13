@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import TodoHeader from './TodoHeader';
 import TodoMain from './TodoMain';
 import TodoFooter from './TodoFooter';
@@ -19,6 +20,15 @@ class App extends Component {
     };
     console.log(this.state.datas);
   }
+  getChildContext(){
+    return {
+      updateItem:this.updateItem.bind(this)
+    }
+  }
+  
+  static childContextTypes = {
+    updateItem: PropTypes.func,
+  };
   updateItem(){
     this.setState({
         todos:Filter[this.state.visibility](Storage.datas),
@@ -32,6 +42,7 @@ class App extends Component {
         visibility:visibility
     });
   }
+
   render() {
     const {updateItem,updateVisibility} = this;
     let {todos,visibility} = this.state;
