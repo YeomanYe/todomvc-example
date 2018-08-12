@@ -34,7 +34,7 @@ export default class Todo extends Component {
         this.context.updateItem();
     }
     buttonHandler(){
-        Storage.remoteItem(this.state.todo);
+        Storage.removeItem(this.state.todo);
         Storage.updateItem();
         console.log('context',this.context);
         this.context.updateItem();

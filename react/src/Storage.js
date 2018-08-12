@@ -23,7 +23,7 @@ export default class Storage {
         datas.push(item);
         this.setItem(datas);
     }
-    static remoteItem(item) {
+    static removeItem(item) {
         var datas = this.datas;
         if (!datas) datas = this.getItem();
         var index = datas.indexOf(item);
@@ -36,13 +36,13 @@ export default class Storage {
         if (!itemArr.length) return;
         for (var item of itemArr) {
             var index = datas.indexOf(item);
-            datas.splice(index, 1);
+            if(index >= 0) datas.splice(index, 1);
         }
         this.setItem(datas);
         console.log(datas);
     }
     static clear() {
-        localStorage.remoteItem(this.key);
-        this.datas = null;
+        this.setItem([]);
+        this.datas = [];
     }
 }
