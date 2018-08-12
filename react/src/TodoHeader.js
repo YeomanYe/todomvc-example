@@ -18,7 +18,7 @@ class TodoHeader extends Component {
         }
     }
     changeHandler(event) {
-        console.log(event);
+        // console.log(event);
         this.setState({
             input: event.target.value
         })

@@ -19,24 +19,21 @@ export default class Todo extends Component {
         };
     }
     ckChangeHandler(e) {
-        let checkbox = e.currentTarget;
-        console.log(checkbox);
-        console.log(this);
+        // console.log(this);
         let todo = this.state.todo;
-        todo.completed = checkbox.checked;
-
+        todo.completed = !todo.completed;
         this.setState({
             todo: todo
         });
         this.setCompletedClass();
         Storage.updateItem();
-        console.log('context',this.context);
+        // console.log('context',this.context);
         this.context.updateItem();
     }
     buttonHandler(){
         Storage.removeItem(this.state.todo);
         Storage.updateItem();
-        console.log('context',this.context);
+        // console.log('context',this.context);
         this.context.updateItem();
     }
     setEditClass(){
