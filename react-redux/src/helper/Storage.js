@@ -1,12 +1,13 @@
 export default class Storage {
-    static key = 'react-todos';
+    static key = 'react-redux-todos';
     static datas = null;
 
     static init() {
-        var datas = this.getItem();
+        let datas = this.getItem();
         datas = datas ? datas : [];
         this.setItem(datas);
         this.datas = datas;
+        return datas;
     }
     static updateItem() {
         localStorage.setItem(this.key, JSON.stringify(this.datas));
@@ -18,24 +19,24 @@ export default class Storage {
         return JSON.parse(localStorage.getItem(this.key));
     }
     static addItem(item) {
-        var datas = this.datas;
+        let datas = this.datas;
         if (!datas) datas = this.getItem();
         datas.push(item);
         this.setItem(datas);
     }
     static removeItem(item) {
-        var datas = this.datas;
+        let datas = this.datas;
         if (!datas) datas = this.getItem();
-        var index = datas.indexOf(item);
+        let index = datas.indexOf(item);
         datas.splice(index, 1);
         this.setItem(datas);
         console.log(datas);
     }
     static removeItemArr(itemArr) {
-        var datas = this.datas;
+        let datas = this.datas;
         if (!itemArr.length) return;
-        for (var item of itemArr) {
-            var index = datas.indexOf(item);
+        for (let item of itemArr) {
+            let index = datas.indexOf(item);
             if(index >= 0) datas.splice(index, 1);
         }
         this.setItem(datas);
