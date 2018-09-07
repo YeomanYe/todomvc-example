@@ -1,23 +1,43 @@
-import React from 'react';
+import React,{Component} from 'react';
+import {changeHandlerFactory} from "../helper/PageHelper";
 
-const Todo = ({todo,updateTodo,removeTodo,editable}) => (
-    <li className={['todo',editable ? 'editing' : '',todo.completed ? 'completed' : ''].join(' ')}>
-        <div className="view">
-            <input checked={todo.completed} onChange={()=>{
-                todo.completed = !todo.completed;
-                updateTodo(todo);
-            }}  type="checkbox" className="toggle"/>
-            <label onDoubleClick={()=>{}}>{todo.msg}</label>
-            <button onClick={removeTodo} className="destroy"></button>
-        </div>
-        <input onKeyDown={(evt)=>{
-            let {keyCode,target:{value}} = evt;
-            if(keyCode === 13 && value.trim()){
-                todo.msg = value;
-                updateTodo(todo);
-            }
-        }} type="text" className="edit"/>
-    </li>
-);
-
-export default Todo;
+export default class Todo extends Component{
+    // 构造
+      constructor(props) {
+        super(props);
+        // 初始状态
+        this.state = {
+            editable:false,
+            msg:props.todo.msg
+        };
+      }
+    render(){
+        let {todo,updateTodo,removeTodo} = this.props;
+        let {editable} = this.state;
+        let createBind = changeHandlerFactory(this);
+        return(
+            <li className={['todo',editable ? 'editing' : '',todo.completed ? 'completed' : ''].join(' ')}>
+                <div className="view">
+                    <input checked={todo.completed} onChange={()=>{
+                        todo.completed = !todo.completed;
+                        updateTodo(todo);
+                    }}  type="checkbox" className="toggle"/>
+                    <label onDoubleClick={()=>{this.setState({editable:true})}}>{todo.msg}</label>
+                    <button onClick={removeTodo} className="destroy"></button>
+                </div>
+                <input {...createBind('msg')} autoFocus="autofocus" onKeyDown={(evt)=>{
+                    let {keyCode,target:{value}} = evt;
+                    let editable = true;
+                    if(keyCode === 13 && value.trim()){
+                        todo.msg = value;
+                        editable = false;
+                        updateTodo(todo);
+                    }else if(keyCode === 27){
+                        editable = false;
+                    }
+                    this.setState({editable,msg:value});
+                }} type="text" className="edit"/>
+            </li>
+        )
+    }
+}
