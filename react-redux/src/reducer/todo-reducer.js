@@ -1,6 +1,6 @@
 import TodoAction from '../action/todo-action';
 import TodoStore from "../helper/TodoStore";
-const initState = TodoStore.init();
+const initState = [...TodoStore.init()];
 export default function (state = initState,action) {
     let retState = state;
     let {add,del,update} = TodoAction.TYPE;

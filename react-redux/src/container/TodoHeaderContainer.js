@@ -6,4 +6,4 @@ const mapDispatchToProps = dispatch => ({
     addTodo:msg => dispatch(TodoAction.add(msg))
 });
 
-export default connect(undefined,mapDispatchToProps)(TodoHeader);
+export default connect(null,mapDispatchToProps)(TodoHeader);
