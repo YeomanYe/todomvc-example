@@ -1,13 +1,13 @@
 import React from 'react';
-import TodoHeader from './TodoHeader';
-import TodoMain from './TodoMain';
-import TodoFooter from './TodoFooter';
+import TodoMainContainer from '../container/TodoMainContainer';
+import TodoFooterContainer from "../container/TodoFooterContainer";
+import TodoHeaderContainer from "../container/TodoHeaderContainer";
 
 const App = () => (
     <section>
-        <TodoHeader />
-        <TodoMain />
-        <TodoFooter />
+        <TodoHeaderContainer />
+        <TodoMainContainer />
+        <TodoFooterContainer />
     </section>
 );
 export default App;

@@ -1,16 +1,16 @@
 import React from 'react';
-import { Field, reduxForm } from 'redux-form'
+import {reduxForm} from 'redux-form'
+import {createInputEnter} from "../helper/PageHelper";
 
-const TodoHeader = ({onKeyDown}) => (
+const TodoHeader = ({addTodo}) => (
     <header className="header">
         <h1>todos</h1>
-        <Field type="text" name={"todoInput"} component={renderField(onKeyDown)}/>
+        <input onKeyDown={createInputEnter((value)=>{
+            addTodo(value);
+        })} autoFocus="autofocus" autoComplete="off" placeholder="请填写代办事项" className="new-todo"/>
     </header>
 );
 
-const renderField = onKeyDown => (field) => (
-    <input {...field.input} onKeyDown={onKeyDown} autoFocus="autofocus" autoComplete="off" placeholder="请填写代办事项" className="new-todo"/>
-);
 
 export default reduxForm({
     form:'todoInputForm'

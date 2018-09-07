@@ -58,7 +58,7 @@ export default class Todo extends Component {
         });
     }
     keydownHandler(event) {
-        console.log(event.keyCode);
+        console.log('event',event.target.value);
         if (event.keyCode === 13) {
             let todo = this.state.todo;
             todo.message = this.state.msg;

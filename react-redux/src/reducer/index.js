@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
-import todo from './todo-reducer'
+import todos from './todo-reducer'
+import visibility from './visibility-reducer';
 
-export default combineReducers({todo})
+export default combineReducers({todos,visibility})

@@ -1,13 +1,22 @@
 import React from 'react';
 
-const Todo = ({todo,removeTodo,onKeyDown,setEditable,toggleTodoCompleted,editable}) => (
+const Todo = ({todo,updateTodo,removeTodo,editable}) => (
     <li className={['todo',editable ? 'editing' : '',todo.completed ? 'completed' : ''].join(' ')}>
         <div className="view">
-            <input checked={todo.completed} onChange={toggleTodoCompleted}  type="checkbox" className="toggle"/>
-            <label onDoubleClick={setEditable}>{todo.message}</label>
+            <input checked={todo.completed} onChange={()=>{
+                todo.completed = !todo.completed;
+                updateTodo(todo);
+            }}  type="checkbox" className="toggle"/>
+            <label onDoubleClick={()=>{}}>{todo.msg}</label>
             <button onClick={removeTodo} className="destroy"></button>
         </div>
-        <input onKeyDown={onKeyDown} type="text" className="edit"/>
+        <input onKeyDown={(evt)=>{
+            let {keyCode,target:{value}} = evt;
+            if(keyCode === 13 && value.trim()){
+                todo.msg = value;
+                updateTodo(todo);
+            }
+        }} type="text" className="edit"/>
     </li>
 );
 

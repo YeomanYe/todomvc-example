@@ -7,19 +7,24 @@ export default class TodoStore {
         if(todos.length > 0) id = todos[todos.length - 1].id;
         return todos;
     }
-    static getTodo(id){
-        return ArrayUtil.getArrByObj(todos,{id})[0];
-    }
     static addTodo(msg,completed){
         ++id;
         todos.push({id,msg,completed});
         Storage.setItem(todos);
+        return id;
     }
-    static delTodo(id){
-        let index = ArrayUtil.objEqArr(todos,{id});
-        if(index < 0) return;
-        todos.splice(index,1);
-        Storage.setItem(todos);
+    static delTodo(ids){
+        let delOne = (id) => {
+            let index = ArrayUtil.objEqArr(todos,{id});
+            if(index < 0) return;
+            todos.splice(index,1);
+            Storage.setItem(todos);
+        };
+        if(ids instanceof Array){
+            for(let id of ids) delOne(id);
+        }else{
+            delOne(ids);
+        }
     }
     static updateTodo({id,msg,completed}){
         let obj = ArrayUtil.getArrByObj(todos,{id})[0];
