@@ -1,7 +1,8 @@
 import TodoAction from '../action/todo-action';
 import TodoStore from "../helper/TodoStore";
+import ReducerFactory from "../helper/ReducerFactory";
 const initState = [...TodoStore.init()];
-export default function (state = initState,action) {
+/*export default function (state = initState,action) {
     let retState = state;
     let {add,del,update} = TodoAction.TYPE;
     console.log('retState',retState,'action',action);
@@ -14,4 +15,5 @@ export default function (state = initState,action) {
         }break;
     }
     return retState;
-}
+}*/
+export default ReducerFactory.createArrReducer({initState,actionType:TodoAction.TYPE,dataName:'todo'});

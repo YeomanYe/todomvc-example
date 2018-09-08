@@ -22,10 +22,10 @@ export default class Todo extends Component{
                         todo.completed = !todo.completed;
                         updateTodo(todo);
                     }}  type="checkbox" className="toggle"/>
-                    <label onDoubleClick={()=>{this.setState({editable:true})}}>{todo.msg}</label>
+                    <label onDoubleClick={()=>{this.setState({editable:true},()=>this.textInput.focus())}}>{todo.msg}</label>
                     <button onClick={removeTodo} className="destroy"></button>
                 </div>
-                <input {...createBind('msg')} autoFocus="autofocus" onKeyDown={(evt)=>{
+                <input onBlur={()=>this.setState({editable:false})} {...createBind('msg')} ref={(input) => { this.textInput = input; }} autoFocus={editable ? "autofocus" : ''} onKeyDown={(evt)=>{
                     let {keyCode,target:{value}} = evt;
                     let editable = true;
                     if(keyCode === 13 && value.trim()){

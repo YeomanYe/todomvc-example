@@ -5,8 +5,6 @@ import VisibilityAction from "../action/visibility-action";
 import store from '../store';
 const {ALL,COMPLETED,ACTIVE} = VisibilityAction.STATUS;
 
-let state = store.getState();
-
 const mapStateToProps = (state, ownProps) => {
     let {visibility} = state,left = 0;
     switch (visibility){
@@ -20,7 +18,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => ({
     toggleVisibility:status => dispatch(VisibilityAction.toggle(status)),
-    clearCompleted:() => dispatch(TodoAction.del(state.todos.filter(todo => todo.completed).map(todo => todo.id)))
+    clearCompleted:() => dispatch(TodoAction.del(store.getState().todos.filter(todo => todo.completed).map(todo => todo.id)))
 });
 
 export default connect(
