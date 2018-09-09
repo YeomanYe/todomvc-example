@@ -1,5 +1,4 @@
 import {ADD_TODO} from "../action/todo-action";
-import VisibilityAction from "../action/visibility-action";
 
 export default class ReducerFactory {
     static createArrReducer({initState,actionType,dataName,idName = 'id'}){
