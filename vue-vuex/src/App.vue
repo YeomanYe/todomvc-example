@@ -17,10 +17,11 @@
     import TodoFooter from './components/TodoFooter';
     import bindRoute from './helper/Router';
     import EventHub from "./helper/EventHub";
+    import TodoStore from "./helper/TodoStore";
 
     let data = {
         visibility: "all",
-        todos: JSON.parse(localStorage.getItem("vue-vuex-todos")) || []
+        todos: TodoStore.getTodo()
     };
 
     bindRoute(data,'visibility');
@@ -31,15 +32,12 @@
           EventHub.$on(EventHub.TYPE.REMOVE_TODO,this.removeTodo);
             EventHub.$on(EventHub.TYPE.REMOVE_ALL_COMPL,this.removeAllCompl);
         },
-        data: () => {
-            data.todos = JSON.parse(localStorage.getItem("vue-vuex-todos")) || [];
-            return data;
-        },
+        data: () => data,
         watch: {
             todos: {
                 deep: true,
                 handler() {
-                    localStorage.setItem("vue-vuex-todos", JSON.stringify(this.todos));
+                    TodoStore.setTodo();
                 }
             }
         },
@@ -48,9 +46,8 @@
                 this.todos.push({
                     message, completed: false
                 });
-                localStorage.setItem("vue-vuex-todos", JSON.stringify(this.todos));
             },
-            removeTodo(index, event) {
+            removeTodo(index) {
                 this.todos.splice(index, 1);
             },
             removeAllCompl(ids) {

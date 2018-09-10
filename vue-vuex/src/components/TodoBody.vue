@@ -16,9 +16,6 @@
             editedTodo: null,
         }),
         props:['todos','visibility'],
-        methods: {
-
-        },
         computed: {
             filteredTodos() {
                 return Filter[this.visibility](this.todos);
