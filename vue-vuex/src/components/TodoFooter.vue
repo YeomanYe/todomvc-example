@@ -15,8 +15,9 @@
 
 <script>
     import EventHub from '../helper/EventHub';
+    import {mapState} from 'vuex';
     export default {
-        props:['visibility','todos'],
+        props:['visibility'],
         methods: {
             removeAllCompl() {
                 console.log("todos", this.todos);
@@ -38,7 +39,10 @@
                     left = todo.completed ? left : left + 1;
                 }
                 return left;
-            }
+            },
+            ...mapState({
+                todos:state => state.todo.todos
+            }),
         },
     }
 </script>

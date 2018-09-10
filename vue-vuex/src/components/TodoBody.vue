@@ -10,16 +10,20 @@
 <script>
     import Todo from './Todo';
     import Filter from '../helper/Filter';
+    import {mapState} from 'vuex';
     export default {
         components:{Todo},
         data: ()=>({
             editedTodo: null,
         }),
-        props:['todos','visibility'],
+        props:['visibility'],
         computed: {
             filteredTodos() {
                 return Filter[this.visibility](this.todos);
             },
+            ...mapState({
+                todos:state => state.todo.todos
+            }),
         },
     }
 </script>

@@ -2,8 +2,8 @@
     <div>
         <section class="todoapp" v-cloak>
             <TodoHeader @add-todo="addTodo"/>
-            <TodoBody @remove-todo="removeTodo" :todos="todos" :visibility="visibility"/>
-            <TodoFooter :todos="todos" :visibility="visibility" />
+            <TodoBody @remove-todo="removeTodo" :visibility="visibility"/>
+            <TodoFooter :visibility="visibility" />
         </section>
         <footer class="info">
             <p>Written by <a href="http://github.com/YeomanYe">YeomanYe</a></p>
@@ -17,11 +17,10 @@
     import TodoFooter from './components/TodoFooter';
     import bindRoute from './helper/Router';
     import EventHub from "./helper/EventHub";
-    import TodoStore from "./helper/TodoStore";
+    import {mapState} from 'vuex';
 
     let data = {
         visibility: "all",
-        todos: TodoStore.getTodo()
     };
 
     bindRoute(data,'visibility');
@@ -30,22 +29,16 @@
         components: {TodoBody, TodoHeader, TodoFooter},
         created(){
           EventHub.$on(EventHub.TYPE.REMOVE_TODO,this.removeTodo);
-            EventHub.$on(EventHub.TYPE.REMOVE_ALL_COMPL,this.removeAllCompl);
+          EventHub.$on(EventHub.TYPE.REMOVE_ALL_COMPL,this.removeAllCompl);
         },
         data: () => data,
-        watch: {
-            todos: {
-                deep: true,
-                handler() {
-                    TodoStore.setTodo();
-                }
-            }
-        },
         methods: {
             addTodo(message) {
+                console.log('store',this.$store);
                 this.todos.push({
                     message, completed: false
                 });
+                console.log('store',this.$store);
             },
             removeTodo(index) {
                 this.todos.splice(index, 1);
@@ -61,6 +54,11 @@
                 }
             },
         },
+        computed:{
+            ...mapState({
+                todos:state => state.todo.todos
+            }),
+        }
     }
 </script>
 
