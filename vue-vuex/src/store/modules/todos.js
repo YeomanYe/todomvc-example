@@ -1,4 +1,6 @@
 import TodoStore from "../../helper/TodoStore";
+import Filter from "../../helper/Filter";
+
 let todos = TodoStore.initTodo();
 
 //mutations
@@ -8,7 +10,9 @@ const mutations = {
         state.todos.push(todo);
     },
     removeTodo(state,ids){
+        console.log('ids',ids);
         let leftTodos = ids instanceof Array ? state.todos.filter(todo => ids.indexOf(todo.id) < 0) : state.todos.filter(todo => ids !== todo.id);
+        console.log('leftTodos',leftTodos);
         state.todos = leftTodos;
     },
     updateTodo(state,todo){
@@ -17,6 +21,8 @@ const mutations = {
         eqTodo.completed = todo.completed;
     }
 };
+
+//actions
 const actions = {
     addTodo({commit,state},message){
         let todo = {message,completed:false};
@@ -24,6 +30,7 @@ const actions = {
     },
     removeTodo({commit,state},ids){
         commit('removeTodo',ids);
+        console.log('state.todos',state.todos);
         TodoStore.setTodos(state.todos);
     },
     updateTodo({commit,state},todo){
@@ -31,10 +38,25 @@ const actions = {
         TodoStore.setTodos(state.todos);
     }
 };
+
+//getters
+const getters = {
+    leftTodos(state) {
+        let left = 0;
+        for (let todo of state.todos) {
+            left = todo.completed ? left : left + 1;
+        }
+        return left;
+    },
+    filteredTodos(state,getter,rootState) {
+        return Filter[rootState.visibility.visibility](state.todos);
+    },
+};
 export default {
     state:{
         todos
     },
     mutations,
-    actions
+    actions,
+    getters
 };

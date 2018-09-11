@@ -7,6 +7,7 @@
 </template>
 
 <script>
+    import {mapActions} from 'vuex';
     export default {
         data: ()=>({
             title: "todos",
@@ -14,14 +15,16 @@
             todoInput: "",
         }),
         methods: {
+            ...mapActions(['addTodo']),
             todoInputHandler(event) {
                 console.log("event", event);
+                console.log("store", this.$store);
                 let val = this.todoInput;
                 if (!val || !val.trim()) return;
                 //清空输入
                 this.todoInput = "";
                 //发送事件
-                this.$emit('add-todo',val);
+                this.addTodo(val);
             },
         },
     }

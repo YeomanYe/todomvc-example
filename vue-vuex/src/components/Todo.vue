@@ -3,7 +3,7 @@
         <div class="view">
             <input type="checkbox" v-model="todo.completed" class="toggle">
             <label @dblclick="editTodo(todo)">{{todo.message}}</label>
-            <button @click="removeTodo(index,$event)" class="destroy"></button>
+            <button @click="remove($event)" class="destroy"></button>
         </div>
         <input v-model="todo.message" @keyup.enter="doneEdit(todo)" @keyup.esc="cancelEdit(todo)"
                @blur="doneEdit(todo)" v-todo-focus="todo == editedTodo" type="text" class="edit">
@@ -11,14 +11,14 @@
 </template>
 
 <script>
-    import EventHub from "../helper/EventHub";
-
+    import {mapActions} from 'vuex';
     export default {
         data: ()=>({
             editedTodo: null,
         }),
         props:['todo','index'],
         methods: {
+            ...mapActions(['removeTodo','updateTodo']),
             editTodo(todo) {
                 this.beforeEditCache = todo.message;
                 this.editedTodo = todo;
@@ -31,12 +31,19 @@
                 todo.message = this.beforeEditCache;
                 this.editedTodo = null;
             },
-            removeTodo(index, event) {
+            remove(event) {
                 console.log("this", this);
                 console.log("event", event);
-                console.log("index", index);
-                EventHub.$emit(EventHub.TYPE.REMOVE_TODO,index);
+                this.removeTodo(this.todo.id);
             },
+        },
+        watch: {
+            todo: {
+                deep: true,
+                handler() {
+                    this.updateTodo(this.todo);
+                }
+            }
         },
         directives: {
             'todo-focus'(el, binding) {

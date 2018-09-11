@@ -1,17 +1,23 @@
 import {Router} from 'director/build/director';
+import store from '../store';
 
-export default function bindRouter(data,field) {
+function dispatch(visibility){
+    store.dispatch('toggleVisibility',visibility);
+}
+
+
+export default function bindRoute() {
     let routes = {
-        '/all': () => data[field] = 'all',
-        '/active': () => data[field] = 'active',
-        '/completed': () => data[field] = 'completed'
+        '/all': () => dispatch('all'),
+        '/active': () => dispatch('active'),
+        '/completed': () => dispatch('completed')
     };
 
     let router = Router(routes);
     router.configure({
         notfound: function () {
             window.location.hash = '';
-            data[field] = 'all';
+            dispatch('all');
         }
     });
     router.init();

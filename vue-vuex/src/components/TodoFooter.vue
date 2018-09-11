@@ -14,35 +14,29 @@
 </template>
 
 <script>
-    import EventHub from '../helper/EventHub';
-    import {mapState} from 'vuex';
+    import {mapGetters, mapState,mapActions} from 'vuex';
+
     export default {
-        props:['visibility'],
         methods: {
+            ...mapActions(['removeTodo']),
             removeAllCompl() {
                 console.log("todos", this.todos);
                 let ids = [];
                 for (let i = this.todos.length - 1; i >= 0; i--) {
                     let todo = this.todos[i];
-                    console.log(todo, i);
                     if (todo.completed) {
-                        ids.unshift(i);
+                        ids.unshift(todo.id);
                     }
                 }
-                EventHub.$emit(EventHub.TYPE.REMOVE_ALL_COMPL,ids);
+                this.removeTodo(ids);
             },
         },
         computed: {
-            leftTodos() {
-                let left = 0;
-                for (let todo of this.todos) {
-                    left = todo.completed ? left : left + 1;
-                }
-                return left;
-            },
             ...mapState({
-                todos:state => state.todo.todos
+                todos:state => state.todo.todos,
+                visibility:state => state.visibility.visibility
             }),
+            ...mapGetters(['leftTodos'])
         },
     }
 </script>

@@ -1,9 +1,9 @@
 <template>
     <div>
         <section class="todoapp" v-cloak>
-            <TodoHeader @add-todo="addTodo"/>
-            <TodoBody @remove-todo="removeTodo" :visibility="visibility"/>
-            <TodoFooter :visibility="visibility" />
+            <TodoHeader/>
+            <TodoBody/>
+            <TodoFooter />
         </section>
         <footer class="info">
             <p>Written by <a href="http://github.com/YeomanYe">YeomanYe</a></p>
@@ -16,49 +16,20 @@
     import TodoBody from './components/TodoBody';
     import TodoFooter from './components/TodoFooter';
     import bindRoute from './helper/Router';
-    import EventHub from "./helper/EventHub";
     import {mapState} from 'vuex';
 
-    let data = {
-        visibility: "all",
-    };
-
-    bindRoute(data,'visibility');
-
+    bindRoute();
     export default {
         components: {TodoBody, TodoHeader, TodoFooter},
         created(){
-          EventHub.$on(EventHub.TYPE.REMOVE_TODO,this.removeTodo);
-          EventHub.$on(EventHub.TYPE.REMOVE_ALL_COMPL,this.removeAllCompl);
         },
-        data: () => data,
-        methods: {
-            addTodo(message) {
-                console.log('store',this.$store);
-                this.todos.push({
-                    message, completed: false
-                });
-                console.log('store',this.$store);
-            },
-            removeTodo(index) {
-                this.todos.splice(index, 1);
-            },
-            removeAllCompl(ids) {
-                for (let i = ids.length - 1; i >= 0; i--) {
-                    let index = ids[i];
-                    let todo = this.todos[index];
-                    console.log(todo, index);
-                    if (todo.completed) {
-                        this.todos.splice(index, 1);
-                    }
-                }
-            },
-        },
+        // data: () => data,
         computed:{
             ...mapState({
-                todos:state => state.todo.todos
+                todos:state => state.todo.todos,
+                visibility:state => state.visibility.visibility
             }),
-        }
+        },
     }
 </script>
 

@@ -14,6 +14,7 @@ export default class TodoStore {
         todoData.id = ++id;
         data.push(todoData);
         setItem();
+        return todoData;
     }
 }
 function setItem(){
